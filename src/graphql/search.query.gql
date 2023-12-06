@@ -1,0 +1,80 @@
+query searchUsers($query: String!, $after: String, $before: String, $first: Int, $last: Int) {
+  search(query: $query, after: $after, type: USER, first: $first, last: $last, before: $before) {
+    nodes {
+      ... on User {
+        name
+        avatarUrl
+        bio
+        login
+      }
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    userCount
+    repositoryCount
+  }
+}
+
+query searchRepositories($query: String!, $after: String, $before: String, $first: Int, $last: Int) {
+  search(query: $query, after: $after, type: REPOSITORY, first: $first, last: $last, before: $before) {
+    nodes {
+      ... on Repository {
+        nameWithOwner
+        description
+        forkCount
+        updatedAt
+        stargazerCount
+      }
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    userCount
+    repositoryCount
+  }
+}
+
+query getUser($login: String!, $after: String, $before: String, $first: Int, $last: Int) {
+  user(login: $login) {
+    name
+    login
+    createdAt
+    bio
+    avatarUrl
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+    repositories(after: $after, first: $first, last: $last, before: $before) {
+      nodes {
+        name
+        nameWithOwner
+        description
+        createdAt
+        updatedAt
+        stargazerCount
+        forkCount
+        primaryLanguage {
+          name
+          color
+        }
+      }
+      totalCount
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}
